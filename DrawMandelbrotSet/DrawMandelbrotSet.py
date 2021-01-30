@@ -15,6 +15,9 @@ import cmath
 
 
 def create_mandelbrot_block(mandelbrot_size, mandelbrot_center, screen_size, block_size, block_start) -> pygame.Surface:
+
+    iterations_limit = 200 # TODO: Parameterize Mandelbrot iterations limit
+
     surf = pygame.Surface(block_size)
 
     scale_x = mandelbrot_size[0] / screen_size[0]
@@ -32,7 +35,7 @@ def create_mandelbrot_block(mandelbrot_size, mandelbrot_center, screen_size, blo
             scaled_up_y = scaled_down_y * mandelbrot_size[1]
             y = scaled_up_y - (mandelbrot_size[1] - mandelbrot_center[1]) / 2
 
-            layer, is_mandelbrot = mandelbrot(x, y, 50)
+            layer, is_mandelbrot = mandelbrot(x, y, iterations_limit)
 
             if is_mandelbrot:
                 color = 0, 0, 0
@@ -47,11 +50,12 @@ def create_mandelbrot_block(mandelbrot_size, mandelbrot_center, screen_size, blo
 def main():
     pygame.init()
 
-    # screen_size = (1600, 960)
-    screen_size = (600, 360)
+    # screen_size = (1600, 960) # big and cool
+    screen_size = (600, 360) # small and for testing
     block_size = (100, 55)
     screen = pygame.display.set_mode(screen_size)
 
+    # initial coordinate window information. will be updated by click-zooming during the application
     mandelbrot_size = (4, 2.4)
     mandelbrot_center = (-0.5, 0)
     time_count = 0
@@ -68,7 +72,13 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 print(event)
                 if event.button == 1:
-                    mandelbrot_center = event.pos[0] / screen_size[0] * mandelbrot_size[0] - mandelbrot_size[0] / 2 + mandelbrot_center[0], event.pos[1] / screen_size[1] * mandelbrot_size[1] - mandelbrot_size[1] / 2 + mandelbrot_center[1]
+                    # TODO: the math only work when zoom_factor = 2. Need to make it work for other values.
+                    mandelbrot_shift_x = (mandelbrot_size[0] / 2 - mandelbrot_center[0]) * zoom_factor / 2
+                    mandelbrot_shift_y = (mandelbrot_size[1] / 2 - mandelbrot_center[1]) * zoom_factor / 2
+
+                    x = event.pos[0] / screen_size[0] * mandelbrot_size[0] + -1 * mandelbrot_shift_x
+                    y = event.pos[1] / screen_size[1] * mandelbrot_size[1] + -1 * mandelbrot_shift_y
+                    mandelbrot_center = x, y
                     mandelbrot_size = (mandelbrot_size[0] / zoom_factor, mandelbrot_size[1] / zoom_factor)
 
                     redraw = True
@@ -78,8 +88,6 @@ def main():
         if redraw:
             for j in range(1, screen_size[1], block_size[1]):
                 for i in range(1, screen_size[0], block_size[0]):
-                    # surface_to_color = pygame.Surface((block_width, block_height))
-                    # surface_to_color.fill(((i*53 + j*7 + time_count) % 255, (i * 11 + j *17 + time_count/2) % 255, (i*23 + j*19 + time_count/3) % 255))
 
                     mandelbrot_block = create_mandelbrot_block(mandelbrot_size, mandelbrot_center, screen_size, block_size,
                                                                (i, j))
@@ -87,34 +95,18 @@ def main():
                     screen.blit(mandelbrot_block, (i, j, i + block_size[0], j + block_size[1]))
 
                     pygame.display.update()
-                    # color = get_my_surface_color(screen_width, screen_height, i, j)
-                    # screen.set_at((i, j), color)
             redraw = False
 
         time_count += 1
-
-
-def colorize_screen_with_mandelbrot(screen):
-    width = screen.get_width()
-    height = screen.get_height()
-
-    try:
-        for j in range(height):
-            for i in range(width):
-                color = get_my_surface_color(width, height, i, j)
-                screen.set_at((i, j), color)
-                # instead of doing a 'screen.set_at()', how about setting pixels on a smaller surface
-                # and blitting them onto the main screen? Say, break the main screen into a grid
-                # having one surface that we re-use on each cell of the grid
-            if j % 20 == 0:
-                pygame.display.update()
-    except:
-        print("an exception occurred")
+        pygame.display.update()
 
 
 def mandelbrot(x, y, max_iterations) -> (int, bool):
     counter = 0
-    mandelbrot_threshold = 2
+
+    # Need a good value for generating the borders on a mandelbrot picture
+    mandelbrot_threshold = 3 * math.sqrt(2)
+
     x_0 = x
     y_0 = y
 

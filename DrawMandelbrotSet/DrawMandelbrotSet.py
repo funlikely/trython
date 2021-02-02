@@ -2,7 +2,8 @@
     Draw a Mandelbrot set
 
     TODO - Use threading to process blocks on the screen in parallel -- it is not working right. can't pickle a surface
-    TODO - Figure out why the program freezes during rendering sometimes
+    TODO - Figure out why the program freezes during rendering sometimes - possibly try reusing the block-sized
+           pygame.Surface returned by create_mandelbrot_block()
     TODO - Find some pizza and eat it
     TODO - Improve color schemes
 
@@ -31,9 +32,11 @@ def create_mandelbrot_block(mandelbrot_size, mandelbrot_corner, screen_size, blo
             if is_mandelbrot:
                 color = 0, 0, 0
             else:
-                r = layer * 20 % 255
-                g = (layer * 30 + 80) % 255
-                b = (layer * 17 + 53) % 255
+                # there has to be a way with abs() and % to make it so these RGB values don't go from 255
+                # down to 0, but instead bounce continuously between 0 and 255
+                r = layer * 5 % 255
+                g = (layer * 7 + 80) % 255
+                b = (layer * 11 + 53) % 255
                 color = r, g, b
 
             surf.set_at((i, j), color)
@@ -56,7 +59,7 @@ def main():
     mandelbrot_corner = (-2.5, -1.2)
     time_count = 0
 
-    zoom_factor = 4
+    zoom_factor = 10
 
     redraw = True
 

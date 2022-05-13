@@ -101,12 +101,11 @@ digitsList = [
     "53503534226472524250874054075591789781264330331690"]
 
 
-
 def add_two_string_ints(a, b):
     carry = 0
     total = []
     for i in range(min(len(a), len(b))):
-        digitSum = int(a[len(a)-i-1]) + int(b[len(b)-i-1]) + carry
+        digitSum = int(a[len(a) - i - 1]) + int(b[len(b) - i - 1]) + carry
         if digitSum > 9:
             carry = 1
             digitSum -= 10
@@ -116,6 +115,7 @@ def add_two_string_ints(a, b):
     total.reverse()
     return ''.join(total)
 
+
 for i in range(len(digitsList)):
     digitsList[i] = '0000' + digitsList[i]
 
@@ -124,4 +124,3 @@ for i in range(1, len(digitsList)):
     grandTotal = add_two_string_ints(grandTotal, digitsList[i])
 
 print("Grand Total = " + grandTotal)
-

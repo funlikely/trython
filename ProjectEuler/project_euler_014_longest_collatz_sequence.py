@@ -104,7 +104,8 @@ def produce_collatz_via_tree(n):
 #     print(tree[i][:100])
 
 
-def collatz(n):
+def collatz(input):
+    n = input
     chain = str(n)
     count = 1
     maximum = 1
@@ -117,7 +118,7 @@ def collatz(n):
         if n > maximum:
             maximum = n
         chain = chain + ", " + str(n)
-    return [n, count, maximum, chain]
+    return [input, count, maximum, chain]
 
 
 # tree = produce_collatz_via_tree(1)
@@ -136,3 +137,4 @@ for i in remainders:
         max_collatz = i
     print(result)
 print("Longest collatz sequence goes to " + str(max_collatz) + " with length " + str(max_length))
+

@@ -1,3 +1,11 @@
+# Large sum
+#
+#
+#   [Show HTML problem content]
+# Problem 13
+#
+# Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
+
 digitsList = [
     "37107287533902102798797998220837590246510135740250",
     "46376937677490009712648124896970078050417018260538",

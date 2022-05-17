@@ -1,9 +1,29 @@
-# n! means n × (n − 1) × ... × 3 × 2 × 1
+# 1000-digit Fibonacci number
 #
-# For example, 10! = 10 × 9 × ... × 3 × 2 × 1 = 3628800,
-# and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+# Problem 25
 #
-# Find the sum of the digits in the number 100!
+# The Fibonacci sequence is defined by the recurrence relation:
+#
+#     Fn = Fn−1 + Fn−2, where F1 = 1 and F2 = 1.
+#
+# Hence the first 12 terms will be:
+#
+#     F1 = 1
+#     F2 = 1
+#     F3 = 2
+#     F4 = 3
+#     F5 = 5
+#     F6 = 8
+#     F7 = 13
+#     F8 = 21
+#     F9 = 34
+#     F10 = 55
+#     F11 = 89
+#     F12 = 144
+#
+# The 12th term, F12, is the first term to contain three digits.
+#
+# What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
 
 import math
 
@@ -49,8 +69,6 @@ def multiply_two_string_ints(s, t):
     result = sub_product_list[0]
     for i in range(1, len(sub_product_list) - 1):
         result = add_two_string_ints(result, sub_product_list[i])
-
-    #return [result, sub_product_list, product_list]
     return result.lstrip('0')
 
 
@@ -59,13 +77,21 @@ print(multiply_two_string_ints('99', '99'))
 print(multiply_two_string_ints('99999999999', '99999999999'))
 print(multiply_two_string_ints('999999999999999', '999999999999999'))
 
-factorial = "1"
-for i in range(1, 100):
-    factorial = multiply_two_string_ints(factorial, str(i))
 
-print(factorial)
+fibonacci_list = ["0", "1", "1"] + ["0"] * 12497
 
-factorial_digits_total = 0
-for i in range(len(factorial)):
-    factorial_digits_total += int(factorial[i])
-print("the sum of digits in 100! is " + str(factorial_digits_total))
+for n in range(3, 12500):
+    fibonacci_list[n] = add_two_string_ints(fibonacci_list[n-1], fibonacci_list[n-2])
+    if n < 6:
+        print("fibonacci({0}) = {1}".format(str(n), fibonacci_list[n]))
+    if len(fibonacci_list[n]) >= 1000:
+        print("1000 digits mark, fibonacci({0}) = ".format(str(n)))
+        print(fibonacci_list[n])
+        break
+
+# print(fibonacci_list)
+
+
+
+
+

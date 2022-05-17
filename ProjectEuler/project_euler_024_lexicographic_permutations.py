@@ -59,10 +59,24 @@ print(generate_permutation('65432', 5))
 #print( generate_permutation_pattern(5, 1))
 
 
-for i in range(120):
-    print(generate_permutation_pattern(5, i))
+# for i in range(120):
+#     print(generate_permutation_pattern(5, i))
+#
+# for i in range(120):
+#     print(''.join(generate_permutation('43210', i)))
+#
+# print(''.join(generate_permutation('9876543210', 1000000)))
+# for i in range(10):
+#     print(''.join(generate_permutation('9876543210', i)))
+# for i in range(362880 * 2, 362880 * 2 + 10):
+#     print(''.join(generate_permutation('9876543210', i)))
 
-for i in range(120):
-    print(''.join(generate_permutation('43210', i)))
+for i in range(999990, 1000010):
+    print(''.join(generate_permutation('9876543210', i)))
 
-print(''.join(generate_permutation('9876543210', 1000000)))
+print('The millionth permutation is ' + ''.join(generate_permutation('9876543210', 999999)))
+
+# print(''.join(generate_permutation('9876543210', 0)))
+# print(''.join(generate_permutation('9876543210', 1)))
+
+# -- 2783915460

@@ -86,14 +86,24 @@ print(prime_factors(12))
 print(get_divisors(7200))
 
 sum_of_amicable_numbers = 0
-for i in range(10000):
-    sum_of_divisors = sum(get_divisors(i))
-    if i % 100 == 0:
-        print("sum of divisors of " + str(i) + " = " + str(sum_of_divisors))
-    amicable_test = sum(get_divisors(sum_of_divisors))
-    if amicable_test == i and i != sum_of_divisors:
-        sum_of_amicable_numbers += i
-        print("amicable numbers " + str(i) + " and " + str(sum_of_divisors))
+amicable_lookup = [0] * 20000
+for num1 in range(10000):
+    if amicable_lookup[num1] != 0:
+        num2 = amicable_lookup[num1]
+    else:
+        num2 = sum(get_divisors(num1))
+        amicable_lookup[num1] = num2
+    if num1 % 100 == 0:
+        print("sum of divisors of " + str(num1) + " = " + str(num2))
+    if num2 < len(amicable_lookup) and amicable_lookup[num2] != 0:
+        amicable_test_for_num1 = amicable_lookup[num2]
+    else:
+        amicable_test_for_num1 = sum(get_divisors(num2))
+        if num2 < len(amicable_lookup):
+            amicable_lookup[num2] = amicable_test_for_num1
+    if amicable_test_for_num1 == num1 and num1 != num2:
+        sum_of_amicable_numbers += num1
+        print("amicable numbers " + str(num1) + " and " + str(num2))
 
-print("sum of amicable numbers = " + str(sum_of_amicable_numbers))
+print("sum of amicable numbers under 10000 is {0}".format(str(sum_of_amicable_numbers)))
 

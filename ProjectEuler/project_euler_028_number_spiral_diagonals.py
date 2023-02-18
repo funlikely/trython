@@ -10,7 +10,29 @@
 #
 # What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
 #
-# 1 - 1
-# 3 - 25
-# 5 - 101
-# 7 -
+# 1 : 1
+# 3 : 1 + (1 * 4) + 2 * 10 = 25
+# 5 : 25 + (9 * 4) + 4 * 10 = 101
+# 7 : 101 + (25 + 6) + (25 + 6 * 2) + (25 + 6 * 3) + (25 + 6 * 4) = 101 + (25 * 4) + (6 * 10) = 261
+# 9 : answer(7) + 7*7*4 + 8*10 = 261 + 196 + 80 = 457+80 = 537
+# 11 : answer(9) + 9*9*4 + 10*10 = 537 + 324 + 100 = 981
+# n : answer(n-2) + 4(n-2)^2 + 10(n-1)
+
+# looks quadratic, say let's look at differences. Well, it isn't.
+# 1, 25, 101, 261, 537, 981
+# 24, 76, 160, 276, 444
+# 52, 84, 116, 168
+# 32, 32, 52
+
+def generate_square_diagonals_sums(param):
+    return {1: 1, 3: 25, 5: 101, 7: 261, 1001: 'test jelly'}
+
+
+def main():
+    square_diagonals_sums = generate_square_diagonals_sums(1001)
+    print(f"The Answer to Project Euler 028 is {square_diagonals_sums[1001]}")
+
+
+if __name__ == "__main__":
+    main()
+

@@ -24,12 +24,19 @@
 # 52, 84, 116, 168
 # 32, 32, 52
 
-def generate_square_diagonals_sums(param):
-    return {1: 1, 3: 25, 5: 101, 7: 261, 1001: 'test jelly'}
+def generate_square_diagonals_sums(limit):
+    fake_answer = {1: 1, 3: 25, 5: 101, 7: 261, 1001: 'bad input'};
+    if limit % 2 != 1:
+        return fake_answer
+    real_answer = {1: 1}
+    for i in range(3, limit + 2, 2):
+        real_answer[i] = real_answer[i - 2] + 4 * (i - 2) * (i - 2) + 10 * (i - 1)
+    return real_answer
 
 
 def main():
     square_diagonals_sums = generate_square_diagonals_sums(1001)
+    # print(f"The first couple diagonal sums are {list(square_diagonals_sums.values())[:6]}")
     print(f"The Answer to Project Euler 028 is {square_diagonals_sums[1001]}")
 
 
